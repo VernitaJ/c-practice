@@ -10,6 +10,7 @@ int main()
     scanf("%19[^\n]", first);
     printf("Second string: ");
     scanf(" %19[^\n]", second);
+    
     int length1 = strlen(first);
     int length2 = strlen(second);
     char * p = (char*)malloc( length1 + length2 + 2);
