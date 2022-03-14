@@ -15,10 +15,8 @@ void *workerThread(void *num)
     if (true)
     {
         return (void *)1;
-        pthread_exit(NULL);
     }
     return (void *)0;
-    pthread_exit(NULL);
 }
 
 int primenumber(int number)
@@ -59,13 +57,13 @@ int main(int argc, char const *argv[])
         }
         else
             strcat(strcpy(str_arr[i], num), " - not a prime");
+        sleep(1);
+        printf("%d out of %d numbers checked\n", i, argc-1);
     }
     for (int i = 1; i < argc; i++)
     {
         printf("%s\n", str_arr[i]);
     }
-    printf("After using threading\n");
-    
-    // pthread_exit(NULL);
+    pthread_exit(NULL);
     return 0;
 }
