@@ -42,8 +42,8 @@ int main()
 
     while (1)
     {
-        int input = acquireFloor(-1, MAX); // prints user prompt for input to console
-
+        int input;// prints user prompt for input to console
+        scanf("%d", &input);
         pthread_mutex_lock(&movingSem);
         if (input == -1)
         {
@@ -54,7 +54,7 @@ int main()
             else
                 printf("status: waiting for user input");
         }
-        else
+        else if (input >=0 || input <= MAX)
         {
             if (moving == 1)
             {
@@ -65,7 +65,7 @@ int main()
                 moving = 1;
                 destination = input;
             }
-        }
+        } else printf("Incorrect input, try again");
         pthread_mutex_unlock(&movingSem);
     }
     pthread_join(thread, NULL);
@@ -89,7 +89,7 @@ void *movement(void *param)
             }
             else
             {
-                printf("Arrived\n");
+                printf("\nArrived\n");
                 moving = 0;
             }
         }
@@ -100,45 +100,45 @@ void *movement(void *param)
     pthread_exit(NULL);
 }
 
-// the following function is from my group (2), IT WAS ALSO ORIGINALLY WRITTEN BY ME IN ONE OF THE LABS (one of the first labs, i don't remember which).
-// what it does it's just safely acquire a value between min and max, if this is considered plagmarism, a scanf does the same as this function it's does not check the values though
-int acquireFloor(int min, int m)
-{
+// // the following function is from my group (2), IT WAS ALSO ORIGINALLY WRITTEN BY ME IN ONE OF THE LABS (one of the first labs, i don't remember which).
+// // what it does it's just safely acquire a value between min and max, if this is considered plagmarism, a scanf does the same as this function it's does not check the values though
+// int acquireFloor(int min, int m)
+// {
 
-    int inputVal; // acquired val
+//     int inputVal; // acquired val
 
-    char endLine;       // to check if the value insered is actually an integer
-    int wrongInput = 0; // a 'boolean' value to keep track of the (wrong) user input
+//     char endLine;       // to check if the value insered is actually an integer
+//     int wrongInput = 0; // a 'boolean' value to keep track of the (wrong) user input
 
-    do
-    {
-        // the input is not yet wrong
-        wrongInput = 0;
-        // asking the user to insert a value
-        
-        // acquiring the user answer inputVal, and also acquiring a new line character to make sure an integer is insered
-        if (scanf("%d%c", &inputVal, &endLine) != 2 || endLine != '\n')
-        {
-            // clean the input buffer after reading the input
-            clear_stdin();
-            // printing an error message to the user
-            perror("\n**ERROR: unexpected value in input**\n");
-            // the value insered is not correct, so wrongInput=1;
-            wrongInput = 1;
-        }
+//     do
+//     {
+//         // the input is not yet wrong
+//         wrongInput = 0;
+//         // asking the user to insert a value
 
-        // the user is asked to insert a coordinate value untill it's a value between min and max (and it's a number, the last condition in the do-while guard checks this)
-    } while ((inputVal > m || inputVal < min) || wrongInput == 1);
+//         // acquiring the user answer inputVal, and also acquiring a new line character to make sure an integer is insered
+//         if (scanf("%d%c", &inputVal, &endLine) != 2 || endLine != '\n')
+//         {
+//             // clean the input buffer after reading the input
+//             clear_stdin();
+//             // printing an error message to the user
+//             perror("\n**ERROR: unexpected value in input**\n");
+//             // the value insered is not correct, so wrongInput=1;
+//             wrongInput = 1;
+//         }
 
-    // returning the value read
-    return inputVal;
-}
-// to clear the stdin buffer since fflush on unix doesn't work
-void clear_stdin()
-{
-    //'moving' forward the pointer related with the stdin buffer, until \n
-    while (getchar() != '\n')
-    {
-        ;
-    }
-}
+//         // the user is asked to insert a coordinate value untill it's a value between min and max (and it's a number, the last condition in the do-while guard checks this)
+//     } while ((inputVal > m || inputVal < min) || wrongInput == 1);
+
+//     // returning the value read
+//     return inputVal;
+// }
+// // to clear the stdin buffer since fflush on unix doesn't work
+// void clear_stdin()
+// {
+//     //'moving' forward the pointer related with the stdin buffer, until \n
+//     while (getchar() != '\n')
+//     {
+//         ;
+//     }
+// }
