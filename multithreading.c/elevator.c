@@ -42,30 +42,32 @@ int main()
 
     while (1)
     {
-        int input;// prints user prompt for input to console
+        int input; // prints user prompt for input to console
         scanf("%d", &input);
         pthread_mutex_lock(&movingSem);
         if (input == -1)
         {
             if (moving)
             {
-                printf("status: Moving");
+                printf("\nstatus: Moving");
             }
             else
-                printf("status: waiting for user input");
+                printf("\nstatus: waiting for user input");
         }
-        else if (input >=0 || input <= MAX)
+        else if (input >= 0 && input <= MAX)
         {
             if (moving == 1)
             {
-                printf("the elevator is already moving");
+                printf("\nthe elevator is already moving");
             }
             else
             {
                 moving = 1;
                 destination = input;
             }
-        } else printf("Incorrect input, try again");
+        }
+        else
+            printf("\nIncorrect input, try again");
         pthread_mutex_unlock(&movingSem);
     }
     pthread_join(thread, NULL);
